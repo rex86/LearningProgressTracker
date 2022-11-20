@@ -22,6 +22,7 @@ public class StudentsMode implements Mode{
     public void execute(String modeCommand) {
         if("add students".equals(modeCommand)){
 
+            int userId=10000;
             String command = "";
             command = tracker.Asker.userInput("Enter student credentials or 'back' to return:\n");
             while (!"back".equals(command)){
@@ -38,7 +39,7 @@ public class StudentsMode implements Mode{
                     emailAddress = command.strip().substring(lastSpaceIndex + 1).strip();
 
                     if (Validate.checkData(firstName, lastName, emailAddress)) {
-                        students.add(new Student(fullName, emailAddress));
+                        students.add(new Student(userId++,fullName, emailAddress));
                         System.out.println("The student has been added.");
                     }
                 }
@@ -48,7 +49,6 @@ public class StudentsMode implements Mode{
 
             int studentListSize = students.size();
             System.out.println("Total " + studentListSize + " students have been added.");
-            new ModeChanger().run(new TopLevelMode(),"topLevel");
 
 
         }else{

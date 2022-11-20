@@ -7,10 +7,6 @@ import java.util.List;
 
 public class TopLevelMode implements Mode{
 
-    List<Student> students = new ArrayList<>();
-
-
-
     public TopLevelMode() {
     }
 
@@ -19,7 +15,7 @@ public class TopLevelMode implements Mode{
         ModeChanger modeChanger = new ModeChanger();
         StudentsMode studentsMode = new StudentsMode();
 
-        ListMode listMode = new ListMode();
+        ListMode listMode = new ListMode(studentsMode.getStudents());
         FindMode findMode = new FindMode();
         PointsMode pointsMode = new PointsMode();
 
@@ -59,7 +55,4 @@ public class TopLevelMode implements Mode{
         System.exit(0);
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
 }

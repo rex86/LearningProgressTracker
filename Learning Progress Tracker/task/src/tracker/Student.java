@@ -2,10 +2,10 @@ package tracker;
 
 public class Student implements Comparable<Student> {
 
-    static int id = 10000;
-    int pointsJava = 0;
-    int pointsDsa = 0;
-    int pointsDatabases = 0;
+    int id;
+    int pointsJava;
+    int pointsDsa;
+    int pointsDatabases;
 
 
 
@@ -13,10 +13,10 @@ public class Student implements Comparable<Student> {
     private String name;
     private String email;
 
-    public Student(String name, String email) {
+    public Student(int id, String name, String email) {
         this.name = name;
         this.email = email;
-        id++;
+        this.id = id;
     }
 
     public String getName() {
