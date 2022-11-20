@@ -23,6 +23,14 @@ public class PointsMode implements Mode {
 //            System.out.println(split_input.length);
             int num = 0;
             boolean isIncorrect=false;
+            Student student;
+            int pointsJava=0;
+            int pointsDsa=0;
+            int pointsDatabases=0;
+
+
+
+            int pointsSpring = 0;
             while (!"back".equals(input)) {
                  split_input = input.split(" ");
                 try {
@@ -41,7 +49,19 @@ public class PointsMode implements Mode {
                     isIncorrect = true;
 
                 }
-                if(!isIncorrect) System.out.println("Points updated.");
+                student = findUser(Integer.parseInt(split_input[0]));
+                if(!isIncorrect && student != null){
+                    pointsJava +=Integer.parseInt(split_input[1]);
+                    student.setPointsJava(pointsJava);
+                    pointsDsa +=Integer.parseInt(split_input[2]);
+                    student.setPointsDsa(pointsDsa);
+                    pointsDatabases+=Integer.parseInt(split_input[3]);
+                    student.setPointsDatabases(pointsDatabases);
+                    pointsSpring+=Integer.parseInt(split_input[4]);
+                    student.setPointsSpring(pointsSpring);
+
+                    System.out.println("Points updated.");
+                }
 
                 input = tracker.Asker.userInput("");
             }
@@ -49,5 +69,13 @@ public class PointsMode implements Mode {
         } else {
             throw new UnsupportedCommandException(command);
         }
+    }
+    public Student findUser(int userId){
+        for (Student item: studentList) {
+            if(item.getId() == userId){
+                return item;
+            }
+        }
+        return null;
     }
 }

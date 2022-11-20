@@ -20,6 +20,7 @@ public class ListMode implements Mode {
         if("list".equals(command)){
 
             for (Student item: studentList) {
+                System.out.println("Students:");
                 System.out.println(item.getId());
             }
 
