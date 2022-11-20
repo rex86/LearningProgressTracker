@@ -16,7 +16,7 @@ public class TopLevelMode implements Mode{
         StudentsMode studentsMode = new StudentsMode();
 
         ListMode listMode = new ListMode(studentsMode.getStudents());
-        FindMode findMode = new FindMode();
+        FindMode findMode = new FindMode(studentsMode.getStudents());
         PointsMode pointsMode = new PointsMode();
 
 
@@ -54,5 +54,7 @@ public class TopLevelMode implements Mode{
         System.out.println("Bye!");
         System.exit(0);
     }
+
+
 
 }
