@@ -19,9 +19,15 @@ public class ListMode implements Mode {
     public void execute(String command) {
         if("list".equals(command)){
 
-            for (Student item: studentList) {
+            if(studentList.size() == 0){
+                System.out.println("No students found.");
+            }
+            else{
+
                 System.out.println("Students:");
-                System.out.println(item.getId());
+                for (Student item: studentList) {
+                    System.out.println(item.getId());
+                }
             }
 
         }else{

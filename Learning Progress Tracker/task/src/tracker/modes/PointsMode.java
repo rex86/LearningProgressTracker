@@ -37,6 +37,11 @@ public class PointsMode implements Mode {
 
                     isIncorrect=false;
                     for (int i = 0; i < split_input.length; i++) {
+                        if(split_input.length != 5){
+                            System.out.println("Incorrect points format.");
+                            isIncorrect = false;
+                            break;
+                        }
                         num = Integer.parseInt(split_input[i]);
                         if (num < 0 && !isIncorrect) {
                             System.out.println("Incorrect points format.");
@@ -49,8 +54,10 @@ public class PointsMode implements Mode {
                     isIncorrect = true;
 
                 }
+//                System.out.println("SDFDFDFDFDF");
                 student = findUser(Integer.parseInt(split_input[0]));
-                if(!isIncorrect && student != null){
+//                System.out.println("GREEEEE");
+                if(!isIncorrect && student != null && split_input.length == 5){
                     pointsJava +=Integer.parseInt(split_input[1]);
                     student.setPointsJava(pointsJava);
                     pointsDsa +=Integer.parseInt(split_input[2]);

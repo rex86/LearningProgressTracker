@@ -5,7 +5,7 @@ import tracker.Student;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopLevelMode implements Mode{
+public class TopLevelMode implements Mode {
 
     public TopLevelMode() {
     }
@@ -20,32 +20,42 @@ public class TopLevelMode implements Mode{
         PointsMode pointsMode = new PointsMode(studentsMode.getStudents());
 
 
-        if("topLevel".equals(command)){
+        if ("topLevel".equals(command)) {
 
-            do{
+            do {
                 String input = tracker.Asker.userInput("");
 
-                switch (input){
-                    case "add students":
-                        modeChanger.run(studentsMode,input);
-                        break;
-                    case "list":
-                        modeChanger.run(listMode,input);
-                        break;
-                    case "find":
-                        modeChanger.run(findMode,input);
-                        break;
-                    case "add points":
-                        modeChanger.run(pointsMode,input);
-                        break;
-                    case "exit":
-                        comExit();
-                    case "back":
-                        System.out.println("Enter 'exit' to exit the program.");;
-                }
-            }while (true);
+                boolean isEnter = input.isEmpty() || input.isBlank();
+                if (isEnter) {
+                    System.out.println("No input");
+                } else {
 
-        }else{
+
+                    switch (input) {
+                        case "add students":
+                            modeChanger.run(studentsMode, input);
+                            break;
+                        case "list":
+                            modeChanger.run(listMode, input);
+                            break;
+                        case "find":
+                            modeChanger.run(findMode, input);
+                            break;
+                        case "add points":
+                            modeChanger.run(pointsMode, input);
+                            break;
+                        case "exit":
+                            comExit();
+                        case "back":
+                            System.out.println("Enter 'exit' to exit the program.");
+                            break;
+                        default:
+                    System.out.println("Unknown command!");
+                    }
+                }
+            } while (true);
+
+        } else {
             throw new UnsupportedCommandException(command);
         }
     }
@@ -54,7 +64,6 @@ public class TopLevelMode implements Mode{
         System.out.println("Bye!");
         System.exit(0);
     }
-
 
 
 }
