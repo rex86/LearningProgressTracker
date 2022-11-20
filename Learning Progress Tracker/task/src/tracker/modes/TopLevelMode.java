@@ -17,7 +17,7 @@ public class TopLevelMode implements Mode{
 
         ListMode listMode = new ListMode(studentsMode.getStudents());
         FindMode findMode = new FindMode(studentsMode.getStudents());
-        PointsMode pointsMode = new PointsMode();
+        PointsMode pointsMode = new PointsMode(studentsMode.getStudents());
 
 
         if("topLevel".equals(command)){
@@ -35,7 +35,7 @@ public class TopLevelMode implements Mode{
                     case "find":
                         modeChanger.run(findMode,input);
                         break;
-                    case "points":
+                    case "add points":
                         modeChanger.run(pointsMode,input);
                         break;
                     case "exit":
