@@ -4,6 +4,7 @@ import tracker.Student;
 import tracker.Validate;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class StudentsMode implements Mode{
@@ -50,7 +51,6 @@ public class StudentsMode implements Mode{
                      System.out.println("Incorrect credentials.");
                  }
                 command = tracker.Asker.userInput("");
-
             }
 
             int studentListSize = students.size();

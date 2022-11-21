@@ -14,6 +14,7 @@ public class TopLevelMode implements Mode {
 
         ModeChanger modeChanger = new ModeChanger();
         StudentsMode studentsMode = new StudentsMode();
+        StatisticsMode statisticsMode = new StatisticsMode(studentsMode.getStudents());
 
         ListMode listMode = new ListMode(studentsMode.getStudents());
         FindMode findMode = new FindMode(studentsMode.getStudents());
@@ -43,6 +44,9 @@ public class TopLevelMode implements Mode {
                             break;
                         case "add points":
                             modeChanger.run(pointsMode, input);
+                            break;
+                        case "statistics":
+                            modeChanger.run(statisticsMode, input);
                             break;
                         case "exit":
                             comExit();

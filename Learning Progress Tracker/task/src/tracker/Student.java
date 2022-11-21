@@ -6,9 +6,7 @@ public class Student implements Comparable<Student> {
     int pointsJava;
     int pointsDsa;
     int pointsDatabases;
-
-
-
+    int allPoints;
     int pointsSpring = 0;
     private String name;
     private String email;
@@ -76,7 +74,9 @@ public class Student implements Comparable<Student> {
         return String.format("%d points: Java=%d; DSA=%d; Databases=%d; Spring=%d",
                 getId(),getPointsJava(),getPointsDsa(),getPointsDatabases(),getPointsSpring());
     }
-
+    public int getAllPoints() {
+        return pointsJava+pointsDsa+pointsDatabases+pointsSpring;
+    }
     @Override
     public int compareTo(Student student) {
         return email.equals(student.getEmail())?1:0;
