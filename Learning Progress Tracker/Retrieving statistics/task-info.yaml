@@ -957,6 +957,574 @@ files:
         }
     }
   learner_created: false
+- name: src/tracker/modes/UnsupportedCommandException.java
+  visible: true
+  text: |
+    package tracker.modes;
+
+    public class UnsupportedCommandException extends RuntimeException {
+        private final String command;
+
+        public UnsupportedCommandException(String command) {
+            this.command = command;
+        }
+
+        public String getCommand() {
+            return command;
+        }
+    }
+  learner_created: true
+- name: src/tracker/Student.java
+  visible: true
+  text: |
+    package tracker;
+
+    public class Student implements Comparable<Student> {
+
+        int id;
+        int pointsJava;
+        int pointsDsa;
+        int pointsDatabases;
+
+
+
+        int pointsSpring = 0;
+        private String name;
+        private String email;
+
+        public Student(int id, String name, String email) {
+            this.name = name;
+            this.email = email;
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public int getPointsJava() {
+            return pointsJava;
+        }
+
+        public void setPointsJava(int pointsJava) {
+            this.pointsJava = pointsJava;
+        }
+
+        public int getPointsDsa() {
+            return pointsDsa;
+        }
+
+        public void setPointsDsa(int pointsDsa) {
+            this.pointsDsa = pointsDsa;
+        }
+
+        public int getPointsDatabases() {
+            return pointsDatabases;
+        }
+
+        public void setPointsDatabases(int pointsDatabases) {
+            this.pointsDatabases = pointsDatabases;
+        }
+
+        public int getPointsSpring() {
+            return pointsSpring;
+        }
+
+        public void setPointsSpring(int pointsSpring) {
+            this.pointsSpring = pointsSpring;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%d points: Java=%d; DSA=%d; Databases=%d; Spring=%d",
+                    getId(),getPointsJava(),getPointsDsa(),getPointsDatabases(),getPointsSpring());
+        }
+
+        @Override
+        public int compareTo(Student student) {
+            return email.equals(student.getEmail())?1:0;
+    //        if(email.equals(student.getEmail()))
+        }
+    }
+  learner_created: true
+- name: src/tracker/modes/FindMode.java
+  visible: true
+  text: |
+    package tracker.modes;
+
+    import tracker.Student;
+
+    import java.util.List;
+
+    public class FindMode implements Mode{
+        List<Student> studentList;
+
+        public FindMode() {
+        }
+
+        public FindMode(List<Student> studentList) {
+            this.studentList = studentList;
+        }
+        public void execute(String command) {
+            int userId;
+            Student student;
+            if("find".equals(command)){
+                System.out.println("Enter an id or 'back' to return:");
+
+                String input = tracker.Asker.userInput("");
+                while (!"back".equals(input)){
+                    userId = Integer.parseInt(input);
+                    student = findUser(userId);
+                    if(Integer.parseInt(input)>0 &&  student!= null){
+                        System.out.println(student);
+                    }else if(student == null) {
+                        System.out.println("No student is found for id="+userId+".");
+                    }
+                    input = tracker.Asker.userInput("");
+                }
+            }else{
+                throw new UnsupportedCommandException(command);
+            }
+        }
+
+        public Student findUser(int userId){
+            for (Student item: studentList) {
+                if(item.getId() == userId){
+                    return item;
+                }
+            }
+            return null;
+        }
+    }
+  learner_created: true
+- name: src/tracker/modes/PointsMode.java
+  visible: true
+  text: |
+    package tracker.modes;
+
+    import tracker.Student;
+
+    import java.util.List;
+
+    public class PointsMode implements Mode {
+
+        List<Student> studentList;
+
+        public PointsMode(List<Student> studentList) {
+            this.studentList = studentList;
+        }
+
+        @Override
+        public void execute(String command) {
+            if ("add points".equals(command)) {
+    //            System.out.printf("You have entered Points mode");
+    //            System.out.println();
+
+                String input = tracker.Asker.userInput("Enter an id and points or 'back' to return:\n");
+                String[] split_input;
+    //            System.out.println(split_input.length);
+                int num = 0;
+                boolean isIncorrect = false;
+                Student student;
+                int pointsJava = 0;
+                int pointsDsa = 0;
+                int pointsDatabases = 0;
+
+
+                int pointsSpring = 0;
+                while (!"back".equals(input)) {
+                    split_input = input.split(" ");
+
+                    isIncorrect = false;
+
+
+                    for (int i = 1; i < split_input.length; i++) {
+                        if(isDigit(split_input[i])){
+
+                            num = Integer.parseInt(split_input[i]);
+                        }
+                        else {
+                            num = 0;
+                        }
+                        if (!isDigit(split_input[i]) ||  num < 0) {
+                            System.out.println("Incorrect points format.");
+                            isIncorrect = true;
+                            break;
+                        }
+
+                    }
+
+                    if (split_input.length != 5) {
+                        System.out.println("Incorrect points format.");
+                        isIncorrect = true;
+
+                    }
+                    if (!isDigit(split_input[0])) {
+                        System.out.printf("No student is found for id=%s\n", split_input[0]);
+                    } else {
+                        student = findUser(Integer.parseInt(split_input[0]));
+
+                        if (!isIncorrect && student != null && split_input.length == 5) {
+                            pointsJava = student.getPointsJava()+Integer.parseInt(split_input[1]);
+                            student.setPointsJava(pointsJava);
+                            pointsDsa = student.getPointsDsa()+Integer.parseInt(split_input[2]);
+                            student.setPointsDsa(pointsDsa);
+                            pointsDatabases = student.getPointsDatabases()+Integer.parseInt(split_input[3]);
+                            student.setPointsDatabases(pointsDatabases);
+                            pointsSpring = student.getPointsSpring()+Integer.parseInt(split_input[4]);
+                            student.setPointsSpring(pointsSpring);
+                            System.out.println("Points updated.");
+                        }
+                    }
+
+
+                    input = tracker.Asker.userInput("");
+                }
+            } else {
+                throw new UnsupportedCommandException(command);
+            }
+        }
+
+        public Student findUser(int userId) {
+
+            for (Student item : studentList) {
+                if (item.getId() == userId) {
+                    return item;
+                }
+            }
+
+
+            return null;
+        }
+
+        private boolean isDigit(String input) {
+            for (int i = 0; i < input.length(); i++) {
+                if (!Character.isDigit(input.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+  learner_created: true
+- name: src/tracker/Validate.java
+  visible: true
+  text: |
+    package tracker;
+
+    public class Validate {
+
+        public static boolean checkData(String firstName, String lastName, String email){
+
+            if(!checkFirstName(firstName)){
+                System.out.println("Incorrect first name.");
+            } else if (!checkLastName(lastName)) {
+                System.out.println("Incorrect last name.");
+            } else if (!checkEmail(email)) {
+                System.out.println("Incorrect email.");
+            }
+            return checkFirstName(firstName) &&
+                    checkLastName(lastName) &&
+                    checkEmail(email);
+        }
+
+        public static boolean checkFirstName(String name){
+            boolean isOKFirstName;
+    //        System.out.println("F:" + name);
+    //        isOKFirstName = name.matches("[a-zA-Z-']*");
+    //        isOKFirstName = name.matches("^[^\\.-][a-zA-Z]*[a-zA-Z][-']?+[^\\.-]$");
+            isOKFirstName = name.matches("^([a-zA-Z]+[-']?\s?)*[a-zA-Z]+$");
+    //        isOKFirstName = true;
+    //        System.out.println("length" + name.length());
+            return isOKFirstName && name.length()>1;
+        }
+
+        public static boolean checkLastName(String name){
+            boolean isOKLastName;
+            String regexp= "^([a-zA-Z]+[-']?\s?)*[a-zA-Z]+$";
+            isOKLastName = name.matches(regexp);
+    //        System.out.println(isOKLastName + " - " + (name.length()>1));
+            return isOKLastName && name.length()>1;
+        }
+        public static boolean checkEmail(String email){
+
+    //        return email.matches("[a-z]+[\\.-]*[a-z]+@\\w+[-_]*.\\w{2,4}");
+    //        return email.matches("\\w+[\\.-]*\\w+@\\w+[-_]*.\\w+");
+            return email.matches("^\\w+[-\\.]?\\w*@\\w+\\.\\w+");
+        }
+    }
+  learner_created: true
+- name: src/tracker/Asker.java
+  visible: true
+  text: |
+    package tracker;
+
+    import java.util.Scanner;
+
+    public class Asker {
+        protected static Scanner scanner = new Scanner(System.in);
+
+        public static String userInput(String question) {
+
+            System.out.print(question);
+            return scanner.nextLine().strip();
+        }
+
+        public static Scanner getScanner() {
+            return scanner;
+        }
+
+    }
+  learner_created: true
+- name: src/tracker/modes/TopLevelMode.java
+  visible: true
+  text: |
+    package tracker.modes;
+
+    import tracker.Student;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class TopLevelMode implements Mode {
+
+        public TopLevelMode() {
+        }
+
+        public void execute(String command) {
+
+            ModeChanger modeChanger = new ModeChanger();
+            StudentsMode studentsMode = new StudentsMode();
+
+            ListMode listMode = new ListMode(studentsMode.getStudents());
+            FindMode findMode = new FindMode(studentsMode.getStudents());
+            PointsMode pointsMode = new PointsMode(studentsMode.getStudents());
+
+
+            if ("topLevel".equals(command)) {
+
+                do {
+                    String input = tracker.Asker.userInput("");
+
+                    boolean isEnter = input.isEmpty() || input.isBlank();
+                    if (isEnter) {
+                        System.out.println("No input");
+                    } else {
+
+
+                        switch (input) {
+                            case "add students":
+                                modeChanger.run(studentsMode, input);
+                                break;
+                            case "list":
+                                modeChanger.run(listMode, input);
+                                break;
+                            case "find":
+                                modeChanger.run(findMode, input);
+                                break;
+                            case "add points":
+                                modeChanger.run(pointsMode, input);
+                                break;
+                            case "exit":
+                                comExit();
+                            case "back":
+                                System.out.println("Enter 'exit' to exit the program.");
+                                break;
+                            default:
+                        System.out.println("Unknown command!");
+                        }
+                    }
+                } while (true);
+
+            } else {
+                throw new UnsupportedCommandException(command);
+            }
+        }
+
+        private void comExit() {
+            System.out.println("Bye!");
+            System.exit(0);
+        }
+
+
+    }
+  learner_created: true
+- name: src/tracker/modes/ModeController.java
+  visible: true
+  text: |
+    package tracker.modes;
+    public class ModeController {
+    //    public static void main(String[] args) {
+    //        String command = "topLevel";
+    //        new ModeChanger().run(new TopLevelMode(),command); //enter to particular mode
+    //
+    ////        Mode pointsMode = new PointsMode();
+    ////        Mode studentsMode = new StudentsMode();
+    ////        Mode findMode = new FindMode();
+    ////        Mode topLevelMode = new TopLevelMode();
+    ////        Mode listMode = new ListMode();
+    //    }
+    }
+  learner_created: true
+- name: src/tracker/modes/ModeChanger.java
+  visible: true
+  text: |
+    package tracker.modes;
+    public class ModeChanger {
+
+        public void run(Mode mode, String command){
+            try {
+                mode.execute(command);
+            }catch (UnsupportedCommandException ex){
+                System.out.printf("Unknown command: %s",ex.getCommand());
+            }
+        }
+    }
+  learner_created: true
+- name: src/tracker/modes/Mode.java
+  visible: true
+  text: |
+    package tracker.modes;
+    public interface Mode {
+        void execute(String command);
+    }
+  learner_created: true
+- name: src/tracker/modes/StudentsMode.java
+  visible: true
+  text: |
+    package tracker.modes;
+
+    import tracker.Student;
+    import tracker.Validate;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class StudentsMode implements Mode{
+
+        List<Student> students = new ArrayList<>();
+        boolean isOK = false;
+        boolean isEnd = false;
+        String fullName = "";
+        String firstName = "";
+        String lastName = "";
+        String emailAddress = "";
+        int lastSpaceIndex = 0;
+        int firstSpaceIndex = 0;
+
+        @Override
+        public void execute(String modeCommand) {
+            if("add students".equals(modeCommand)){
+
+                int userId=10000;
+                String command = "";
+                command = tracker.Asker.userInput("Enter student credentials or 'back' to return:\n");
+                while (!"back".equals(command)){
+
+    //                if (!command.matches(".+@.+") ) {
+    //                    System.out.println("Incorrect credentials.");
+
+    //                } else if (command.matches(".+@.+")) {
+                     if (command.matches(".+[@\\.].+")) {
+                        firstSpaceIndex = command.indexOf(" ");
+                        lastSpaceIndex = command.lastIndexOf(" ");
+                        firstName = command.strip().substring(0, firstSpaceIndex);
+                        lastName = command.strip().substring(firstSpaceIndex + 1, lastSpaceIndex);
+                        fullName = firstName + " " + lastName;
+                        emailAddress = command.strip().substring(lastSpaceIndex + 1).strip();
+                        boolean isExistStudent = isExistStudent(emailAddress);
+                        if (Validate.checkData(firstName, lastName, emailAddress) && !isExistStudent) {
+                            students.add(new Student(userId++,fullName, emailAddress));
+                            System.out.println("The student has been added.");
+                        } else if (isExistStudent) {
+                            System.out.println("This email is already taken.");
+                        }
+                    }
+                     else {
+                         System.out.println("Incorrect credentials.");
+                     }
+                    command = tracker.Asker.userInput("");
+
+                }
+
+                int studentListSize = students.size();
+                System.out.println("Total " + studentListSize + " students have been added.");
+
+
+            }else{
+                throw new UnsupportedCommandException(modeCommand);
+            }
+        }
+        public List<Student> getStudents() {
+            return students;
+        }
+
+        private boolean isExistStudent(String emailAddress){
+            for (Student item: students) {
+                if(item.getEmail().equals(emailAddress)) return true;
+            }
+            return false;
+        }
+    }
+  learner_created: true
+- name: src/tracker/modes/ListMode.java
+  visible: true
+  text: |
+    package tracker.modes;
+
+    import tracker.Student;
+
+    import java.util.List;
+
+    public class ListMode implements Mode {
+
+
+        List<Student> studentList;
+
+        public ListMode(List<Student> studentList) {
+            this.studentList = studentList;
+        }
+
+        public ListMode() {
+        }
+
+        public void execute(String command) {
+            if("list".equals(command)){
+
+                if(studentList.size() == 0){
+                    System.out.println("No students found.");
+                }
+                else{
+
+                    System.out.println("Students:");
+                    for (Student item: studentList) {
+                        System.out.println(item.getId());
+                    }
+                }
+
+            }else{
+                throw new UnsupportedCommandException(command);
+            }
+        }
+
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/14399#comment
 status: Unchecked
 record: -1

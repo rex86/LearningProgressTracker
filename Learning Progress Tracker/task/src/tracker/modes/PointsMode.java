@@ -22,67 +22,85 @@ public class PointsMode implements Mode {
             String[] split_input;
 //            System.out.println(split_input.length);
             int num = 0;
-            boolean isIncorrect=false;
+            boolean isIncorrect = false;
             Student student;
-            int pointsJava=0;
-            int pointsDsa=0;
-            int pointsDatabases=0;
-
+            int pointsJava = 0;
+            int pointsDsa = 0;
+            int pointsDatabases = 0;
 
 
             int pointsSpring = 0;
             while (!"back".equals(input)) {
-                 split_input = input.split(" ");
-                try {
+                split_input = input.split(" ");
 
-                    isIncorrect=false;
-                    for (int i = 0; i < split_input.length; i++) {
-                        if(split_input.length != 5){
-                            System.out.println("Incorrect points format.");
-                            isIncorrect = false;
-                            break;
-                        }
+                isIncorrect = false;
+
+
+                for (int i = 1; i < split_input.length; i++) {
+                    if(isDigit(split_input[i])){
+
                         num = Integer.parseInt(split_input[i]);
-                        if (num < 0 && !isIncorrect) {
-                            System.out.println("Incorrect points format.");
-                            isIncorrect = true;
-                            break;
-                        }
                     }
-                } catch (NumberFormatException ex) {
+                    else {
+                        num = 0;
+                    }
+                    if (!isDigit(split_input[i]) ||  num < 0) {
+                        System.out.println("Incorrect points format.");
+                        isIncorrect = true;
+                        break;
+                    }
+
+                }
+
+                if (split_input.length != 5) {
                     System.out.println("Incorrect points format.");
                     isIncorrect = true;
 
                 }
-//                System.out.println("SDFDFDFDFDF");
-                student = findUser(Integer.parseInt(split_input[0]));
-//                System.out.println("GREEEEE");
-                if(!isIncorrect && student != null && split_input.length == 5){
-                    pointsJava +=Integer.parseInt(split_input[1]);
-                    student.setPointsJava(pointsJava);
-                    pointsDsa +=Integer.parseInt(split_input[2]);
-                    student.setPointsDsa(pointsDsa);
-                    pointsDatabases+=Integer.parseInt(split_input[3]);
-                    student.setPointsDatabases(pointsDatabases);
-                    pointsSpring+=Integer.parseInt(split_input[4]);
-                    student.setPointsSpring(pointsSpring);
+                if (!isDigit(split_input[0])) {
+                    System.out.printf("No student is found for id=%s\n", split_input[0]);
+                } else {
+                    student = findUser(Integer.parseInt(split_input[0]));
 
-                    System.out.println("Points updated.");
+                    if (!isIncorrect && student != null && split_input.length == 5) {
+                        pointsJava = student.getPointsJava()+Integer.parseInt(split_input[1]);
+                        student.setPointsJava(pointsJava);
+                        pointsDsa = student.getPointsDsa()+Integer.parseInt(split_input[2]);
+                        student.setPointsDsa(pointsDsa);
+                        pointsDatabases = student.getPointsDatabases()+Integer.parseInt(split_input[3]);
+                        student.setPointsDatabases(pointsDatabases);
+                        pointsSpring = student.getPointsSpring()+Integer.parseInt(split_input[4]);
+                        student.setPointsSpring(pointsSpring);
+                        System.out.println("Points updated.");
+                    }
                 }
+
 
                 input = tracker.Asker.userInput("");
             }
-//            new ModeChanger().run(new TopLevelMode(),"topLevel");
         } else {
             throw new UnsupportedCommandException(command);
         }
     }
-    public Student findUser(int userId){
-        for (Student item: studentList) {
-            if(item.getId() == userId){
+
+    public Student findUser(int userId) {
+
+        for (Student item : studentList) {
+            if (item.getId() == userId) {
                 return item;
             }
         }
+
+
         return null;
+    }
+
+    private boolean isDigit(String input) {
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

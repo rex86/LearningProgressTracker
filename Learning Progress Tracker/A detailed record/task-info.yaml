@@ -818,10 +818,10 @@ files:
 - name: src/tracker/modes/StudentsMode.java
   visible: true
   learner_created: true
-- name: src/tracker/modes/FindMode.java
+- name: src/tracker/modes/ModeChanger.java
   visible: true
   learner_created: true
-- name: src/tracker/modes/ModeChanger.java
+- name: src/tracker/modes/FindMode.java
   visible: true
   learner_created: true
 - name: src/tracker/modes/PointsMode.java
@@ -837,27 +837,8 @@ files:
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/learn/step/14398#comment
-status: Failed
+status: Solved
 feedback:
-  message: "Exception in test #23\n\njava.lang.NumberFormatException: For input string:\
-    \ &quot;imsurethereisnosuchstudentid&quot;\n\tat java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)\n\
-    \tat java.base/java.lang.Integer.parseInt(Integer.java:668)\n\tat java.base/java.lang.Integer.parseInt(Integer.java:786)\n\
-    \tat tracker.modes.PointsMode.execute(PointsMode.java:58)\n\tat tracker.modes.ModeChanger.run(ModeChanger.java:6)\n\
-    \tat tracker.modes.TopLevelMode.execute(TopLevelMode.java:45)\n\tat tracker.modes.ModeChanger.run(ModeChanger.java:6)\n\
-    \tat tracker.Main.main(Main.java:28)\n\nPlease find below the output of your program\
-    \ during this failed test.\nNote that the &#39;&gt;&#39; character indicates the\
-    \ beginning of the input line.\n\n---\n\nLearning Progress Tracker\n&gt; add students\n\
-    Enter student credentials or &#39;back&#39; to return:\n&gt; Emelia Annnora address1@mail.com\n\
-    The student has been added.\n&gt; Starlin Griz address2@mail.com\nThe student\
-    \ has been added.\n&gt; Nonna Miko address3@mail.com\nThe student has been added.\n\
-    &gt; Trixie Winer address4@mail.com\nThe student has been added.\n&gt; Olga Rosanne\
-    \ address5@mail.com\nThe student has been added.\n&gt; Hedwig Wally address6@mail.com\n\
-    The student has been added.\n&gt; back\nTotal 6 students have been added.\n&gt;\
-    \ list\nStudents:\n10000\n10001\n10002\n10003\n10004\n10005\n&gt; add points\n\
-    Enter an id and points or &#39;back&#39; to return:\n&gt; 10000 \nIncorrect points\
-    \ format.\n&gt; 10000 -1 1 1 1\nIncorrect points format.\n&gt; 10000 1 1 2 A\n\
-    Incorrect points format.\n&gt; 10000 1 1 1\nIncorrect points format.\n&gt; 10000\
-    \ 1 1 1 1 1\nIncorrect points format.\n&gt; imsurethereisnosuchstudentid 1 1 1\
-    \ 1\nIncorrect points format."
-  time: Sun, 20 Nov 2022 18:48:12 UTC
-record: -1
+  message: Congratulations!
+  time: "Mon, 21 Nov 2022 10:16:11 UTC"
+record: 3
