@@ -2,6 +2,8 @@ package tracker.modes;
 
 import tracker.Student;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class StatisticsMode implements Mode {
@@ -29,14 +31,15 @@ public class StatisticsMode implements Mode {
 //            input = tracker.Asker.userInput("");
             String [] testData = {"n/a","n/a","n/a","n/a","n/a","n/a"};
             sumStatisticsTable(testData);
+            input = tracker.Asker.userInput("");
             while (!"back".equals(input)){
 
-                input = tracker.Asker.userInput("");
                 if(isCourseExists(input)){
                     courseStatisticsTable(input);
                 }else {
                     System.out.println("Unknown course.");
                 }
+                input = tracker.Asker.userInput("");
 
             }
 
@@ -65,6 +68,8 @@ public class StatisticsMode implements Mode {
         double coursePoint=0;
         int studentParticularCoursePoints=0;
 
+        SortedStudents sortedStudents;
+        List<SortedStudents> sortedStudentsList = new ArrayList<>();
         for (Student item: studentList) {
             switch (courseName){
                 case "java":
@@ -88,8 +93,13 @@ public class StatisticsMode implements Mode {
                     studentParticularCoursePoints = item.getPointsSpring();
                     break;
             }
-            completedValue = (courseNum/coursePoint)*100+"%";
-            System.out.printf("%d\t%d\t%s\n",item.getId(),studentParticularCoursePoints,completedValue);
+            if(studentParticularCoursePoints>0){
+
+                completedValue = (courseNum/coursePoint)*100+"%";
+                System.out.printf("%d\t%d\t%s\n",item.getId(),studentParticularCoursePoints,completedValue);
+                sortedStudents = new SortedStudents(item.getId(),studentParticularCoursePoints,completedValue);
+                sortedStudentsList.add(sortedStudents);
+            }
         }
     }
 
@@ -103,4 +113,47 @@ public class StatisticsMode implements Mode {
 
 
 
+}
+class StatisticsPointComperator implements Comparator<SortedStudents> {
+
+    @Override
+    public int compare(SortedStudents o1, SortedStudents o2) {
+        return Integer.compare(o1.getPoints(),o2.getPoints());
+    }
+}
+
+class SortedStudents {
+    private int id;
+    private int points;
+    private String completed;
+
+    public SortedStudents(int id, int points, String completed) {
+        this.id = id;
+        this.points = points;
+        this.completed = completed;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public double getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(double completed) {
+        this.completed = completed;
+    }
 }
