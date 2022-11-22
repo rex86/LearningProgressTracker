@@ -1,6 +1,6 @@
 package tracker;
 
-public class Student implements Comparable<Student> {
+public class Student {
 
     int id;
     int pointsJava;
@@ -77,9 +77,9 @@ public class Student implements Comparable<Student> {
     public int getAllPoints() {
         return pointsJava+pointsDsa+pointsDatabases+pointsSpring;
     }
-    @Override
-    public int compareTo(Student student) {
-        return email.equals(student.getEmail())?1:0;
-//        if(email.equals(student.getEmail()))
-    }
+//    @Override
+//    public int compareTo(Student student) {
+//        return email.equals(student.getEmail())?1:0;
+////        if(email.equals(student.getEmail()))
+//    }
 }

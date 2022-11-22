@@ -2,6 +2,8 @@ package tracker.modes;
 
 import tracker.Student;
 
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +21,8 @@ public class StatisticsMode implements Mode {
     final double pointsToCompleteDsa = 400.0;
     final double pointsToCompleteDatabases = 480.0;
     final double pointsToCompleteSpring = 550.0;
+    List<SortedStudents> sortedStudentsList = new ArrayList<>();
+
 
     @Override
     public void execute(String command) {
@@ -67,40 +71,94 @@ public class StatisticsMode implements Mode {
         int courseNum=0;
         double coursePoint=0;
         int studentParticularCoursePoints=0;
-
+        NumberFormat numf = NumberFormat.getNumberInstance();
         SortedStudents sortedStudents;
-        List<SortedStudents> sortedStudentsList = new ArrayList<>();
-        for (Student item: studentList) {
+//        for (Student item: studentList) {
+
             switch (courseName){
                 case "java":
-                    courseNum =item.getPointsJava();
-                    coursePoint = pointsToCompleteJava;
-                    studentParticularCoursePoints = item.getPointsJava();
+                    for (Student student: studentList){
+                        courseNum =student.getPointsJava();
+                        coursePoint = pointsToCompleteJava;
+                        studentParticularCoursePoints = student.getPointsJava();
+                        if(studentParticularCoursePoints>0){
+                            numf.setRoundingMode(RoundingMode.HALF_UP);
+                            double num = (courseNum/coursePoint)*100;
+                            double formattedNum = Double.parseDouble(numf.format(num));
+                            String numformated = String.format("%.1f", formattedNum);
+                            completedValue = numformated+"%";
+                            sortedStudents = new SortedStudents(student.getId(),studentParticularCoursePoints,completedValue);
+                            sortedStudentsList.add(sortedStudents);
+                        }
+                    }
+                    printOrdered();
                     break;
                 case "dsa":
-                    courseNum =item.getPointsDsa();
-                    coursePoint = pointsToCompleteDsa;
-                    studentParticularCoursePoints = item.getPointsDsa();
+                    for (Student student: studentList){
+                        courseNum =student.getPointsDsa();
+                        coursePoint = pointsToCompleteDsa;
+                        studentParticularCoursePoints = student.getPointsDsa();
+                        if(studentParticularCoursePoints>0){
+                            numf.setRoundingMode(RoundingMode.HALF_UP);
+                            double num = (courseNum/coursePoint)*100;
+                            double formattedNum = Double.parseDouble(numf.format(num));
+                            String numformated = String.format("%.1f", formattedNum);
+                            completedValue = numformated+"%";
+                            sortedStudents = new SortedStudents(student.getId(),studentParticularCoursePoints,completedValue);
+                            sortedStudentsList.add(sortedStudents);
+                        }
+                    }
+                    printOrdered();
                     break;
                 case "databases":
-                    courseNum =item.getPointsDatabases();
-                    coursePoint = pointsToCompleteDatabases;
-                    studentParticularCoursePoints = item.getPointsDatabases();
+                    for (Student student: studentList){
+                        courseNum =student.getPointsDatabases();
+                        coursePoint = pointsToCompleteDatabases;
+                        studentParticularCoursePoints = student.getPointsDatabases();
+                        if(studentParticularCoursePoints>0){
+                            numf.setRoundingMode(RoundingMode.HALF_UP);
+                            double num = (courseNum/coursePoint)*100;
+                            double formattedNum = Double.parseDouble(numf.format(num));
+                            String numformated = String.format("%.1f", formattedNum);
+                            completedValue = numformated+"%";
+                            sortedStudents = new SortedStudents(student.getId(),studentParticularCoursePoints,completedValue);
+                            sortedStudentsList.add(sortedStudents);
+                        }
+                    }
+                    printOrdered();
                     break;
                 case "spring":
-                    courseNum =item.getPointsSpring();
-                    coursePoint = pointsToCompleteSpring;
-                    studentParticularCoursePoints = item.getPointsSpring();
+                    for (Student student: studentList){
+                        courseNum =student.getPointsSpring();
+                        coursePoint = pointsToCompleteSpring;
+                        studentParticularCoursePoints = student.getPointsSpring();
+                        if(studentParticularCoursePoints>0){
+                            numf.setRoundingMode(RoundingMode.HALF_UP);
+                            double num = (courseNum/coursePoint)*100;
+                            double formattedNum = Double.parseDouble(numf.format(num));
+                            String numformated = String.format("%.1f", formattedNum);
+                            completedValue = numformated+"%";
+                            sortedStudents = new SortedStudents(student.getId(),studentParticularCoursePoints,completedValue);
+                            sortedStudentsList.add(sortedStudents);
+                        }
+                    }
+                    printOrdered();
                     break;
             }
-            if(studentParticularCoursePoints>0){
-
-                completedValue = (courseNum/coursePoint)*100+"%";
-                System.out.printf("%d\t%d\t%s\n",item.getId(),studentParticularCoursePoints,completedValue);
-                sortedStudents = new SortedStudents(item.getId(),studentParticularCoursePoints,completedValue);
-                sortedStudentsList.add(sortedStudents);
-            }
-        }
+//            if(studentParticularCoursePoints>0){
+//
+//                completedValue = (courseNum/coursePoint)*100+"%";
+////                System.out.printf("%d\t%d\t%s\n",item.getId(),studentParticularCoursePoints,completedValue);
+//                sortedStudents = new SortedStudents(item.getId(),studentParticularCoursePoints,completedValue);
+////                System.out.println(" - "+item.getId());
+//                sortedStudentsList.add(sortedStudents);
+//
+//
+//                printOrdered();
+////                sortedStudentsList.sort(new StatisticsPointComperator().reversed());
+////                sortedStudentsList.forEach(System.out::println);
+//            }
+//        }
     }
 
     private boolean isCourseExists(String courseName){
@@ -112,6 +170,12 @@ public class StatisticsMode implements Mode {
     }
 
 
+    private void printOrdered(){
+        sortedStudentsList.sort(new StatisticsPointComperator().reversed());
+        sortedStudentsList.forEach(System.out::println);
+        sortedStudentsList.clear();
+
+    }
 
 }
 class StatisticsPointComperator implements Comparator<SortedStudents> {
@@ -120,6 +184,10 @@ class StatisticsPointComperator implements Comparator<SortedStudents> {
     public int compare(SortedStudents o1, SortedStudents o2) {
         return Integer.compare(o1.getPoints(),o2.getPoints());
     }
+//    @Override
+//    public Comparator<SortedStudents> reversed() {
+//        return Comparator.super.reversed();
+//    }
 }
 
 class SortedStudents {
@@ -149,11 +217,18 @@ class SortedStudents {
         this.points = points;
     }
 
-    public double getCompleted() {
+    public String getCompleted() {
         return completed;
     }
 
-    public void setCompleted(double completed) {
+    @Override
+    public String toString() {
+        return id + "\t" +
+                "\t"+ points +
+                "\t" + completed;
+    }
+
+    public void setCompleted(String completed) {
         this.completed = completed;
     }
 }
