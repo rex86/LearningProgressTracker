@@ -63,6 +63,8 @@ public class PointsMode implements Mode {
                     student = findUser(Integer.parseInt(split_input[0]));
 
                     if (!isIncorrect && student != null && split_input.length == 5) {
+
+                        var everyStudentPoints = student.getEveryPoints();
                         pointsJava = student.getPointsJava()+Integer.parseInt(split_input[1]);
                         student.setPointsJava(pointsJava);
                         pointsDsa = student.getPointsDsa()+Integer.parseInt(split_input[2]);
@@ -71,6 +73,7 @@ public class PointsMode implements Mode {
                         student.setPointsDatabases(pointsDatabases);
                         pointsSpring = student.getPointsSpring()+Integer.parseInt(split_input[4]);
                         student.setPointsSpring(pointsSpring);
+                        everyStudentPoints.add(split_input[1]+" "+split_input[2]+" "+split_input[3]+" "+split_input[4]);
                         System.out.println("Points updated.");
                     }
                 }

@@ -1,5 +1,10 @@
 package tracker;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Student {
 
     int id;
@@ -11,10 +16,35 @@ public class Student {
     private String name;
     private String email;
 
+    private int countActivityJava=1;
+    private int countActivityDsa=1;
+    private int countActivityDatabases=1;
+    private int countActivitySpring=1;
+
+
+    public List<String> getEveryPoints() {
+        return everyPoints;
+    }
+
+    public void setEveryPoints(List<String> everyPoints) {
+        this.everyPoints = everyPoints;
+    }
+
+    private List<String> everyPoints;
+    public Map<String, Integer> getActivityMap() {
+        return activityMap;
+    }
+
+    private Map<String,Integer> activityMap = new HashMap<>();
     public Student(int id, String name, String email) {
         this.name = name;
         this.email = email;
         this.id = id;
+        everyPoints = new ArrayList<>();
+        activityMap.put("Java",0);
+        activityMap.put("DSA",0);
+        activityMap.put("Databases",0);
+        activityMap.put("Spring",0);
     }
 
     public String getName() {
@@ -37,12 +67,14 @@ public class Student {
         return id;
     }
 
-    public int getPointsJava() {
-        return pointsJava;
+    public int getPointsJava() {return pointsJava;
     }
 
     public void setPointsJava(int pointsJava) {
+
         this.pointsJava = pointsJava;
+        if(pointsJava>0) activityMap.replace("Java",countActivityJava++);
+
     }
 
     public int getPointsDsa() {
@@ -50,7 +82,9 @@ public class Student {
     }
 
     public void setPointsDsa(int pointsDsa) {
+
         this.pointsDsa = pointsDsa;
+        if(pointsDsa>0) activityMap.replace("DSA",countActivityDsa++);
     }
 
     public int getPointsDatabases() {
@@ -58,7 +92,10 @@ public class Student {
     }
 
     public void setPointsDatabases(int pointsDatabases) {
+
         this.pointsDatabases = pointsDatabases;
+        if(pointsDatabases>0) activityMap.replace("Databases",countActivityDatabases++);
+
     }
 
     public int getPointsSpring() {
@@ -66,7 +103,25 @@ public class Student {
     }
 
     public void setPointsSpring(int pointsSpring) {
+
         this.pointsSpring = pointsSpring;
+        if(pointsSpring>0) activityMap.replace("Spring",countActivitySpring++);
+
+    }
+    public int getCountActivityJava() {
+        return countActivityJava;
+    }
+
+    public int getCountActivityDsa() {
+        return countActivityDsa;
+    }
+
+    public int getCountActivityDatabases() {
+        return countActivityDatabases;
+    }
+
+    public int getCountActivitySpring() {
+        return countActivitySpring;
     }
 
     @Override
