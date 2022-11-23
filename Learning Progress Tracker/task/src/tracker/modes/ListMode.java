@@ -17,20 +17,19 @@ public class ListMode implements Mode {
     }
 
     public void execute(String command) {
-        if("list".equals(command)){
+        if ("list".equals(command)) {
 
-            if(studentList.size() == 0){
+            if (studentList.size() == 0) {
                 System.out.println("No students found.");
-            }
-            else{
+            } else {
 
                 System.out.println("Students:");
-                for (Student item: studentList) {
+                for (Student item : studentList) {
                     System.out.println(item.getId());
                 }
             }
 
-        }else{
+        } else {
             throw new UnsupportedCommandException(command);
         }
     }

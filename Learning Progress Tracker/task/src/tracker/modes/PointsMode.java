@@ -15,12 +15,8 @@ public class PointsMode implements Mode {
     @Override
     public void execute(String command) {
         if ("add points".equals(command)) {
-//            System.out.printf("You have entered Points mode");
-//            System.out.println();
-
             String input = tracker.Asker.userInput("Enter an id and points or 'back' to return:\n");
             String[] split_input;
-//            System.out.println(split_input.length);
             int num = 0;
             boolean isIncorrect = false;
             Student student;
@@ -37,14 +33,13 @@ public class PointsMode implements Mode {
 
 
                 for (int i = 1; i < split_input.length; i++) {
-                    if(isDigit(split_input[i])){
+                    if (isDigit(split_input[i])) {
 
                         num = Integer.parseInt(split_input[i]);
-                    }
-                    else {
+                    } else {
                         num = 0;
                     }
-                    if (!isDigit(split_input[i]) ||  num < 0) {
+                    if (!isDigit(split_input[i]) || num < 0) {
                         System.out.println("Incorrect points format.");
                         isIncorrect = true;
                         break;
@@ -65,15 +60,15 @@ public class PointsMode implements Mode {
                     if (!isIncorrect && student != null && split_input.length == 5) {
 
                         var everyStudentPoints = student.getEveryPoints();
-                        pointsJava = student.getPointsJava()+Integer.parseInt(split_input[1]);
+                        pointsJava = student.getPointsJava() + Integer.parseInt(split_input[1]);
                         student.setPointsJava(pointsJava);
-                        pointsDsa = student.getPointsDsa()+Integer.parseInt(split_input[2]);
+                        pointsDsa = student.getPointsDsa() + Integer.parseInt(split_input[2]);
                         student.setPointsDsa(pointsDsa);
-                        pointsDatabases = student.getPointsDatabases()+Integer.parseInt(split_input[3]);
+                        pointsDatabases = student.getPointsDatabases() + Integer.parseInt(split_input[3]);
                         student.setPointsDatabases(pointsDatabases);
-                        pointsSpring = student.getPointsSpring()+Integer.parseInt(split_input[4]);
+                        pointsSpring = student.getPointsSpring() + Integer.parseInt(split_input[4]);
                         student.setPointsSpring(pointsSpring);
-                        everyStudentPoints.add(split_input[1]+" "+split_input[2]+" "+split_input[3]+" "+split_input[4]);
+                        everyStudentPoints.add(split_input[1] + " " + split_input[2] + " " + split_input[3] + " " + split_input[4]);
                         System.out.println("Points updated.");
                     }
                 }

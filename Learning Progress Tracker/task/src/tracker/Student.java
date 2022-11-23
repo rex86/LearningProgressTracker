@@ -132,9 +132,5 @@ public class Student {
     public int getAllPoints() {
         return pointsJava+pointsDsa+pointsDatabases+pointsSpring;
     }
-//    @Override
-//    public int compareTo(Student student) {
-//        return email.equals(student.getEmail())?1:0;
-////        if(email.equals(student.getEmail()))
-//    }
+
 }

@@ -19,6 +19,7 @@ public class TopLevelMode implements Mode {
         ListMode listMode = new ListMode(studentsMode.getStudents());
         FindMode findMode = new FindMode(studentsMode.getStudents());
         PointsMode pointsMode = new PointsMode(studentsMode.getStudents());
+        NotifyMode notifyMode = new NotifyMode(studentsMode.getStudents());
 
 
         if ("topLevel".equals(command)) {
@@ -52,6 +53,9 @@ public class TopLevelMode implements Mode {
                             comExit();
                         case "back":
                             System.out.println("Enter 'exit' to exit the program.");
+                            break;
+                        case "notify":
+                            modeChanger.run(notifyMode, input);
                             break;
                         default:
                     System.out.println("Unknown command!");
